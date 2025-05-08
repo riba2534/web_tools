@@ -106,12 +106,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     const valueCell = document.createElement('td');
                     valueCell.className = 'param-value';
                     
+                    // 递归解码参数值
+                    const fullyDecodedValue = recursivelyDecodeValue(value);
+                    
                     // 尝试检测是否为嵌套URL
-                    if (isUrl(value)) {
+                    if (isUrl(fullyDecodedValue)) {
                         // 如果是URL，显示解码后的URL并递归解析
-                        const decodedValue = decodeURIComponent(value);
                         const valueDiv = document.createElement('div');
-                        valueDiv.textContent = decodedValue;
+                        valueDiv.textContent = fullyDecodedValue;
                         valueCell.appendChild(valueDiv);
                         addCopyButton(valueDiv);
                         
@@ -120,11 +122,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         valueCell.appendChild(nestedContainer);
                         
                         // 递归解析嵌套URL
-                        parseUrl(decodedValue, nestedContainer, level + 1);
+                        parseUrl(fullyDecodedValue, nestedContainer, level + 1);
                     } 
                     // 尝试检测并解析JSON
                     else {
-                        const jsonResult = isJson(value);
+                        const jsonResult = isJson(fullyDecodedValue);
                         if (jsonResult && jsonResult.isJson) {
                             try {
                                 const jsonStr = jsonResult.decodedJson;
@@ -136,6 +138,12 @@ document.addEventListener('DOMContentLoaded', () => {
                                 originalValueDiv.style.display = 'none';
                                 valueCell.appendChild(originalValueDiv);
                                 
+                                // 显示完全解码后的原始值
+                                const decodedValueDiv = document.createElement('div');
+                                decodedValueDiv.textContent = fullyDecodedValue;
+                                decodedValueDiv.style.display = 'none';
+                                valueCell.appendChild(decodedValueDiv);
+                                
                                 // 直接显示格式化后的JSON，使用pre标签美化显示
                                 const jsonContainer = document.createElement('pre');
                                 jsonContainer.className = 'formatted-json';
@@ -146,12 +154,12 @@ document.addEventListener('DOMContentLoaded', () => {
                                 addCopyButton(jsonContainer, jsonStr);
                             } catch (e) {
                                 // JSON解析失败，作为普通文本处理
-                                valueCell.textContent = value;
+                                valueCell.textContent = fullyDecodedValue;
                                 addCopyButton(valueCell);
                             }
                         } else {
-                            // 普通值
-                            valueCell.textContent = value;
+                            // 普通值，显示完全解码后的值
+                            valueCell.textContent = fullyDecodedValue;
                             addCopyButton(valueCell);
                         }
                     }
@@ -177,6 +185,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 parametersContainer.classList.remove('hidden');
             }
         }
+    }
+    
+    // 递归解码URL值，直到不能再解码为止
+    function recursivelyDecodeValue(value) {
+        let prevValue = '';
+        let currentValue = value;
+        
+        while (prevValue !== currentValue) {
+            prevValue = currentValue;
+            try {
+                if (currentValue.includes('%')) {
+                    currentValue = decodeURIComponent(prevValue);
+                } else {
+                    break;
+                }
+            } catch (e) {
+                // 如果解码失败，保留之前的值
+                break;
+            }
+        }
+        
+        return currentValue;
     }
     
     // 解析特殊URL参数，正确处理marquee_jump_url
@@ -388,23 +418,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (typeof str !== 'string') return false;
         
         // 尝试解码URL编码的字符串，有些JSON可能是URL编码过的
-        let decodedStr = str;
-        try {
-            // 有些值可能需要多次解码才能得到原始JSON
-            let prevStr = '';
-            while (prevStr !== decodedStr) {
-                prevStr = decodedStr;
-                // 如果字符串包含%编码，尝试解码
-                if (decodedStr.includes('%')) {
-                    decodedStr = decodeURIComponent(decodedStr);
-                } else {
-                    break;
-                }
-            }
-        } catch (e) {
-            // 解码失败，使用原始字符串继续
-            decodedStr = str;
-        }
+        let decodedStr = recursivelyDecodeValue(str);
         
         // 检测是否为转义的JSON
         const parsedJson = tryParseEscapedJson(decodedStr);
