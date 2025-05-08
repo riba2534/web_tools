@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON解析器</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="json-parser.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>JSON解析器</h1>
+            <nav>
+                <a href="index.html">URL解析器</a> | 
+                <a href="json-parser.html" class="active">JSON解析器</a>
+            </nav>
+        </header>
+
+        <div class="json-input-container">
+            <textarea id="jsonInput" placeholder="请输入需要解析的JSON数据" rows="10"></textarea>
+            <div class="button-group">
+                <button id="parseBtn">解析</button>
+                <button id="clearBtn">清空</button>
+                <button id="formatBtn">格式化</button>
+                <button id="copyBtn">复制结果</button>
+            </div>
+        </div>
+        
+        <div id="resultContainer" class="hidden">
+            <div class="result-section" style="padding-bottom: 30px;">
+                <h2>JSON解析结果</h2>
+                <div id="jsonResult" class="json-result"></div>
+            </div>
+        </div>
+    </div>
+    <script src="json-parser.js"></script>
+</body>
+</html> 

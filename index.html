@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL解析器</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="json-parser.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>URL解析器</h1>
+            <nav>
+                <a href="index.html" class="active">URL解析器</a> | 
+                <a href="json-parser.html">JSON解析器</a>
+            </nav>
+        </header>
+
+        <div class="url-input-container">
+            <textarea id="urlInput" placeholder="请输入需要解析的URL" rows="4"></textarea>
+            <button id="parseBtn">解析</button>
+        </div>
+        
+        <div id="resultContainer" class="hidden">
+            <div class="result-section">
+                <h2>URL解析结果</h2>
+                <div class="full-url-section">
+                    <div class="full-url-label">解码后的完整URL:</div>
+                    <div id="decodedFullUrl" class="full-url-value"></div>
+                </div>
+                
+                <div class="full-url-section">
+                    <div class="full-url-label">解码后的完整query参数:</div>
+                    <div id="decodedQueryParams" class="full-url-value"></div>
+                </div>
+                
+                <div class="url-parts">
+                    <div class="part">
+                        <div class="label">协议</div>
+                        <div id="protocol" class="value"></div>
+                    </div>
+                    <div class="part">
+                        <div class="label">主机名</div>
+                        <div id="hostname" class="value"></div>
+                    </div>
+                    <div class="part">
+                        <div class="label">路径</div>
+                        <div id="pathname" class="value"></div>
+                    </div>
+                    <div class="part">
+                        <div class="label">哈希</div>
+                        <div id="hash" class="value"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="parametersContainer" class="result-section hidden">
+                <h2>URL参数</h2>
+                <div id="paramsTree"></div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 

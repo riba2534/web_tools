@@ -1,0 +1,242 @@
+/* JSON解析器专用样式 */
+
+header {
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+}
+
+nav {
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+nav a {
+    color: var(--primary-color);
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+nav a:hover {
+    background-color: rgba(74, 111, 165, 0.1);
+}
+
+nav a.active {
+    font-weight: bold;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.json-input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.button-group button {
+    flex: 1;
+    min-width: 120px;
+}
+
+#clearBtn {
+    background-color: #f44336;
+}
+
+#clearBtn:hover {
+    background-color: #d32f2f;
+}
+
+#formatBtn {
+    background-color: #ff9800;
+}
+
+#formatBtn:hover {
+    background-color: #f57c00;
+}
+
+#copyBtn {
+    background-color: #4caf50;
+}
+
+#copyBtn:hover {
+    background-color: #388e3c;
+}
+
+.json-result {
+    padding: 0;
+    position: relative;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    min-height: 200px;
+    overflow-x: auto;
+}
+
+/* JSON表格样式 */
+.json-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: monospace;
+    font-size: 14px;
+    margin: 0;
+    max-width: 100%;
+    table-layout: fixed;
+}
+
+.json-table td {
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    vertical-align: top;
+    word-wrap: break-word;
+    max-width: 100%;
+}
+
+.key-cell {
+    font-weight: bold;
+    color: var(--json-key);
+    width: 15%;
+    background-color: rgba(74, 111, 165, 0.05);
+}
+
+.value-cell {
+    width: 85%;
+}
+
+/* 嵌套表格样式 */
+.nested-table {
+    margin: 5px 0;
+    border: 1px solid var(--border-color);
+    background-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    font-size: 12px;
+}
+
+.nested-table .nested-table {
+    margin-left: 5px;
+    border-left: 2px solid var(--primary-color);
+}
+
+.nested-table .key-cell {
+    background-color: rgba(74, 111, 165, 0.02);
+    width: 20%;
+}
+
+.nested-table .value-cell {
+    width: 80%;
+}
+
+/* 保留原来的JSON值颜色样式 */
+.json-string {
+    color: var(--json-string);
+    word-break: break-word;
+}
+
+.json-number {
+    color: var(--json-number);
+}
+
+.json-boolean {
+    color: var(--json-boolean);
+}
+
+.json-null {
+    color: var(--json-null);
+}
+
+.copy-indicator {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    display: none;
+}
+
+.show-copy-indicator {
+    display: block;
+    animation: fadeOut 2s forwards;
+}
+
+.error-message {
+    padding: 15px;
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    margin: 10px 0;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .key-cell, .value-cell {
+        width: auto;
+    }
+    
+    .key-cell {
+        width: 30%;
+    }
+    
+    .value-cell {
+        width: 70%;
+    }
+}
+
+@keyframes fadeOut {
+    0% { opacity: 1; }
+    70% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* 格式化JSON文本的样式 */
+.formatted-json {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    background-color: #f8f9fa;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 10px;
+    margin: 0;
+    white-space: pre-wrap;
+    line-height: 1.5;
+    overflow-x: auto;
+    max-width: 100%;
+    font-size: 13px;
+}
+
+/* JSON语法高亮 */
+.json-bracket {
+    color: #808080;
+    font-weight: bold;
+}
+
+.json-comma, .json-colon {
+    color: #808080;
+}
+
+.json-array, .json-object {
+    color: #808080;
+}
+
+.json-key {
+    color: var(--json-key);
+    font-weight: normal;
+}
+
+/* 已有样式的重用及扩展 */
+/* 覆盖值的样式，确保在.formatted-json内的样式正确 */
+.formatted-json .json-string,
+.formatted-json .json-number,
+.formatted-json .json-boolean,
+.formatted-json .json-null {
+    font-weight: normal;
+} 
